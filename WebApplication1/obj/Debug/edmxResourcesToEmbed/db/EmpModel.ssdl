@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PracmvcModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="designation">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="250" />
+  </EntityType>
+  <EntityType Name="employee">
+    <Key>
+      <PropertyRef Name="empid" />
+    </Key>
+    <Property Name="empid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="empname" Type="varchar" MaxLength="250" />
+    <Property Name="gender" Type="bit" />
+    <Property Name="designationid" Type="int" />
+    <Property Name="empemail" Type="varchar" MaxLength="250" />
+    <Property Name="empsalary" Type="varchar" MaxLength="250" />
+    <Property Name="date" Type="datetime" />
+  </EntityType>
+  <Function Name="deleteemployee" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="empid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="insertemployeedata" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="empname" Type="varchar" Mode="In" />
+    <Parameter Name="gender" Type="bit" Mode="In" />
+    <Parameter Name="designationid" Type="int" Mode="In" />
+    <Parameter Name="empemail" Type="varchar" Mode="In" />
+    <Parameter Name="empsalary" Type="decimal" Mode="In" />
+    <Parameter Name="date" Type="datetime" Mode="In" />
+  </Function>
+  <Function Name="selectemployeedata" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="empid" Type="int" Mode="In" />
+  </Function>
+  <Function Name="selectemployeeedesignation" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
+  <Function Name="updateemployeedata" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="empid" Type="int" Mode="In" />
+    <Parameter Name="empname" Type="varchar" Mode="In" />
+    <Parameter Name="gender" Type="bit" Mode="In" />
+    <Parameter Name="designationid" Type="int" Mode="In" />
+    <Parameter Name="empemail" Type="varchar" Mode="In" />
+    <Parameter Name="empsalary" Type="decimal" Mode="In" />
+    <Parameter Name="date" Type="datetime" Mode="In" />
+  </Function>
+  <EntityContainer Name="PracmvcModelStoreContainer">
+    <EntitySet Name="designation" EntityType="Self.designation" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="employee" EntityType="Self.employee" Schema="dbo" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

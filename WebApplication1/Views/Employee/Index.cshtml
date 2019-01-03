@@ -1,0 +1,132 @@
+﻿@model WebApplication1.Models.Employee
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<html>
+<head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" />
+
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+</head>
+<body>
+    <div class="register_form full_width_reg">
+        @using (Html.BeginForm("Insertdata", "Employee", FormMethod.Post, new { @class = "form-horizontal", @id = "insertform", role = "form", enctype = "multipart/form-data" }))
+        {
+
+            <div id="addupdate"></div>
+        }
+    </div>
+
+    
+    <div id="grid">
+    </div>
+    
+</body>
+</html>
+@*<script src="https://code.jquery.com/jquery-3.3.1.js"></script>*@
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>
+<script type="text/javascript" src="//cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>
+<script>
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/Employee/GetAddUpdate",
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (response) {
+                if (response != null) {
+                    $("#addupdate").html(response);
+                    $('#datetimepicker1').datetimepicker();
+                    $.validator.unobtrusive.parse("#insertform");
+                } else {
+                    alert("Something went wrong");
+                }
+
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+
+        bindgrid();
+
+
+    });
+
+    function bindgrid() {
+        $.ajax({
+            type: "GET",
+            url: "/Employee/Getpartialdata",
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (response) {
+                if (response != null) {
+                    $("#grid").html(response);
+                    $('#example').DataTable();
+                } else {
+                    alert("Something went wrong");
+                }
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+    function insert() {
+        var cont = 0;
+        $('input:radio[name="gender"]').change(
+    function () {
+        if ($(this).is(':checked')) {
+            cont = cont + 1;
+        }
+    });
+
+        if ($("#txtname").val() == '' || $("#txtemail").val() == '' || $("#datetimepicker7").val() == '' || $("#designationid").val() == ''
+            || $("#txtsalary").val() == '' || $("#designationid").val() == '' || cont==0) {
+            $("#validate").click();
+
+            return false;
+        }
+
+
+        $.ajax({
+            type: "GET",
+            url: "/Employee/Insertdata",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: $("#insertform").serialize(),
+            success: function (response) {
+                bindgrid();
+
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+
+
+</script>

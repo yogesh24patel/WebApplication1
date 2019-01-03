@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="PracmvcModelStoreContainer" CdmEntityContainer="PracmvcEntities">
+    <EntitySetMapping Name="designations">
+      <EntityTypeMapping TypeName="PracmvcModel.designation">
+        <MappingFragment StoreEntitySet="designation">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="employees">
+      <EntityTypeMapping TypeName="PracmvcModel.employee">
+        <MappingFragment StoreEntitySet="employee">
+          <ScalarProperty Name="empid" ColumnName="empid" />
+          <ScalarProperty Name="empname" ColumnName="empname" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="designationid" ColumnName="designationid" />
+          <ScalarProperty Name="empemail" ColumnName="empemail" />
+          <ScalarProperty Name="empsalary" ColumnName="empsalary" />
+          <ScalarProperty Name="date" ColumnName="date" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="deleteemployee" FunctionName="PracmvcModel.Store.deleteemployee" />
+    <FunctionImportMapping FunctionImportName="insertemployeedata" FunctionName="PracmvcModel.Store.insertemployeedata" />
+    <FunctionImportMapping FunctionImportName="selectemployeedata" FunctionName="PracmvcModel.Store.selectemployeedata">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="PracmvcModel.selectemployeedata_Result">
+          <ScalarProperty Name="empid" ColumnName="empid" />
+          <ScalarProperty Name="empname" ColumnName="empname" />
+          <ScalarProperty Name="gender" ColumnName="gender" />
+          <ScalarProperty Name="designationid" ColumnName="designationid" />
+          <ScalarProperty Name="empemail" ColumnName="empemail" />
+          <ScalarProperty Name="empsalary" ColumnName="empsalary" />
+          <ScalarProperty Name="date" ColumnName="date" />
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="selectemployeeedesignation" FunctionName="PracmvcModel.Store.selectemployeeedesignation">
+      <ResultMapping>
+        <ComplexTypeMapping TypeName="PracmvcModel.selectemployeeedesignation_Result">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+        </ComplexTypeMapping>
+      </ResultMapping>
+    </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="updateemployeedata" FunctionName="PracmvcModel.Store.updateemployeedata" />
+  </EntityContainerMapping>
+</Mapping>

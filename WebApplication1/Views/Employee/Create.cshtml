@@ -1,0 +1,189 @@
+﻿@model WebApplication1.Models.Employee
+@{
+    ViewBag.Title = "Index";
+   Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!DOCTYPE html>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<html>
+<head>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+    
+    
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+</head>
+<body>
+    <div class="register_form full_width_reg">
+        @using (Html.BeginForm("Insertdata", "Employee", FormMethod.Post, new { @class = "form-horizontal",@id="insertform", role = "form", enctype = "multipart/form-data" }))
+        {
+            @*@Html.AntiForgeryToken()*@
+            @Html.ValidationSummary(true)
+            <h3>Register as a Student</h3>
+            <hr />
+            <div class="hidden"></div>
+
+            <div class="form-group col-md-6 col-sm-6">
+                <div class="row">
+                    <label class="col-md-4 control-label" for="Name">Name</label>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.empname, new { htmlAttributes = new { @class = "form-control", id = "txtname", placeholder = "Name" } })
+                        @Html.ValidationMessageFor(model => model.empname)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-6 col-sm-6">
+                <div class="row">
+                    <label class="col-md-4 control-label" for="Campus">Campus</label>
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(model => model.designationid, Model.AvailableDesig, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.designationid)
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="form-group col-md-6 col-sm-6">
+                <div class="row">
+                    <label class="col-md-4 control-label" for="Phone">Phone</label>
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.empemail, new { htmlAttributes = new { @class = "form-control", id = "txtemail", placeholder = "Email Address" } })
+                        @Html.ValidationMessageFor(model => model.empemail)
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-6 col-sm-6">
+                <div class="row">
+                    @Html.LabelFor(m => m.empsalary, new { @class = "col-md-4 control-label" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(model => model.empsalary, new { htmlAttributes = new { @class = "form-control", id = "txtsalary", placeholder = "Salary" } })
+                        @Html.ValidationMessageFor(model => model.empsalary)
+
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+
+            <div class="form-group col-md-6 col-sm-6">
+                <div class="row">
+                    @Html.LabelFor(m => m.date, new { @class = "col-md-4 control-label" })
+                    <div class="col-md-8">
+                        @Html.EditorFor(m => m.date, new { htmlAttributes = new { @class = "form-control input-group date", id = "datetimepicker7", placeholder = "Date" } })
+                        @Html.ValidationMessageFor(model => model.date)
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group col-md-6 col-sm-6">
+                <div class="row">
+                    @Html.LabelFor(m => m.gender, new { @class = "col-md-4 control-label" })
+                    <div class="col-md-8">
+                        @Html.Label("Male")
+                        @Html.RadioButtonFor(m => m.gender, "Male")
+                        @Html.Label("Female")
+                        @Html.RadioButtonFor(m => m.gender, "Female")
+                        @Html.ValidationMessageFor(model => model.gender)
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="form-group col-md-6 col-sm-6">
+                <div class="row">
+                    <div class="col-md-offset-4 col-md-10">                     
+                        <input type="submit" id="validate" class="btn btn-default btn-browse" value="Add" style="display:none;" />
+                        <input type="button" id="submitfilteration" onclick="return insert();" class="btn btn-default btn-browse" value="Add" />
+                        @*onclick="location.href = '/Account/StudentDashboard';"*@
+                    </div>
+                </div>
+            </div>
+        }
+    </div> 
+    <br />  
+    <br />  
+    <br />     
+    <div id="grid">
+    </div>
+    <br />  
+</body>
+</html>
+@*<script src="https://code.jquery.com/jquery-3.3.1.js"></script>*@
+<script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        
+        $.ajax({
+            type: "GET",
+            url: "/Employee/Getpartialdata",
+            contentType: "application/json; charset=utf-8",
+            dataType: "html",
+            success: function (response) {
+                if (response != null) {
+                    $("#grid").html(response);
+                    $('#example').DataTable();
+                } else {
+                    alert("Something went wrong");
+                }
+
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    });
+    
+    function insert() {
+      
+        if ($("#txtname").val() == '' || $("#txtemail").val() == '' || $("#datetimepicker7").val() == '' || $("#designationid").val() == ''
+            || $("#txtsalary").val() == '' || $("#designationid").val() == '' || !$("#gender").prop("checked")) {
+            $("#validate").click();
+            return false;
+        }
+
+        $.ajax({
+            type: "GET",
+            url: "/Employee/Insertdata",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            data: $("#insertform").serialize(),
+            success: function (response) {
+                $.ajax({
+                    type: "GET",
+                    url: "/Employee/Getpartialdata",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "html",
+                    success: function (response) {
+                        if (response != null) {
+                            $("#grid").html(response);
+                        } else {
+                            alert("Something went wrong");
+                        }
+                    },
+                    failure: function (response) {
+                        alert(response.responseText);
+                    },
+                    error: function (response) {
+                        alert(response.responseText);
+                    }
+                });
+
+            },
+            failure: function (response) {
+                alert(response.responseText);
+            },
+            error: function (response) {
+                alert(response.responseText);
+            }
+        });
+    }
+</script>

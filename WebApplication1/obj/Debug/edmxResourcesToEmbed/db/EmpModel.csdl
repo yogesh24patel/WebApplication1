@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="PracmvcModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="designation">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="employee">
+    <Key>
+      <PropertyRef Name="empid" />
+    </Key>
+    <Property Name="empid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="empname" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="gender" Type="Boolean" />
+    <Property Name="designationid" Type="Int32" />
+    <Property Name="empemail" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="empsalary" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+    <Property Name="date" Type="DateTime" Precision="3" />
+  </EntityType>
+  <EntityContainer Name="PracmvcEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="designations" EntityType="Self.designation" />
+    <EntitySet Name="employees" EntityType="Self.employee" />
+    <FunctionImport Name="deleteemployee">
+      <Parameter Name="empid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="insertemployeedata">
+      <Parameter Name="empname" Mode="In" Type="String" />
+      <Parameter Name="gender" Mode="In" Type="Boolean" />
+      <Parameter Name="designationid" Mode="In" Type="Int32" />
+      <Parameter Name="empemail" Mode="In" Type="String" />
+      <Parameter Name="empsalary" Mode="In" Type="Decimal" />
+      <Parameter Name="date" Mode="In" Type="DateTime" />
+    </FunctionImport>
+    <FunctionImport Name="selectemployeedata" ReturnType="Collection(PracmvcModel.selectemployeedata_Result)">
+      <Parameter Name="empid" Mode="In" Type="Int32" />
+    </FunctionImport>
+    <FunctionImport Name="selectemployeeedesignation" ReturnType="Collection(PracmvcModel.selectemployeeedesignation_Result)" />
+    <FunctionImport Name="updateemployeedata">
+      <Parameter Name="empid" Mode="In" Type="Int32" />
+      <Parameter Name="empname" Mode="In" Type="String" />
+      <Parameter Name="gender" Mode="In" Type="Boolean" />
+      <Parameter Name="designationid" Mode="In" Type="Int32" />
+      <Parameter Name="empemail" Mode="In" Type="String" />
+      <Parameter Name="empsalary" Mode="In" Type="Decimal" />
+      <Parameter Name="date" Mode="In" Type="DateTime" />
+    </FunctionImport>
+  </EntityContainer>
+  <ComplexType Name="selectemployeedata_Result">
+    <Property Type="Int32" Name="empid" Nullable="false" />
+    <Property Type="String" Name="empname" Nullable="true" MaxLength="250" />
+    <Property Type="Boolean" Name="gender" Nullable="true" />
+    <Property Type="Int32" Name="designationid" Nullable="true" />
+    <Property Type="String" Name="empemail" Nullable="true" MaxLength="250" />
+    <Property Type="String" Name="empsalary" Nullable="true" MaxLength="250" />
+    <Property Type="DateTime" Name="date" Nullable="true" Precision="23" />
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="name" Nullable="true" MaxLength="250" />
+  </ComplexType>
+  <ComplexType Name="selectemployeeedesignation_Result">
+    <Property Type="Int32" Name="id" Nullable="false" />
+    <Property Type="String" Name="name" Nullable="true" MaxLength="250" />
+  </ComplexType>
+</Schema>
